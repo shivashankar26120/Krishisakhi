@@ -1,0 +1,6 @@
+{
+  "n_docs": 188152,
+  "dim": 1024,
+  "representation": "question_only",
+  "model": "BAAI/bge-m3"
+}

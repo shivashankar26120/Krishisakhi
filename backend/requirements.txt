@@ -1,0 +1,40 @@
+# Krishi Sakhi Backend — Production Runtime Dependencies
+# Pinned versions match the training environment (Python 3.12, TF 2.20.0, Keras 3.13.2)
+# and the NLP RAG pipeline specification.
+
+# ── Web Framework ──────────────────────────────────────────────────────────
+fastapi>=0.111.0
+uvicorn[standard]>=0.29.0
+python-multipart>=0.0.9         # multipart/form-data image/audio uploads
+pydantic>=2.7.0
+pydantic-settings>=2.3.0
+
+# ── Disease Detection & Grad-CAM ──────────────────────────────────────────
+tensorflow==2.20.0              # Matched to notebook training environment
+keras==3.13.2                   # Matched to notebook training environment (Keras 3 native format)
+Pillow>=10.3.0                  # Image decoding & resizing
+opencv-python-headless>=4.9.0   # Grad-CAM JET colormap overlay
+numpy>=1.26.0
+
+# ── NLP / RAG Pipeline ────────────────────────────────────────────────────
+sentence-transformers==3.3.1    # BGE-M3 text embedding model
+faiss-cpu==1.9.0.post1          # Vector retrieval on kb.index
+transformers==4.46.3            # Qwen2.5 LLM + IndicTrans2
+tokenizers==0.20.3
+accelerate==1.1.1
+bitsandbytes==0.45.3            # 4-bit quantisation support
+sentencepiece==0.2.0            # IndicTrans2 tokenizer dependency
+huggingface_hub==0.26.2
+
+# IndicTransToolkit (IndicTrans2 wrapper):
+# Pinned to 1.1.1. If unavailable on PyPI, install via:
+# pip install git+https://github.com/AI4Bharat/IndicTransToolkit.git
+IndicTransToolkit==1.1.1
+
+# ── Voice STT (Whisper) ───────────────────────────────────────────────────
+# Whisper Small is driven via HuggingFace transformers pipeline above.
+
+# ── Voice TTS (Piper) ─────────────────────────────────────────────────────
+# piper-tts installs the piper binary into the Python env's PATH.
+# Voice model is auto-downloaded from HF at first use via huggingface_hub.
+piper-tts>=1.2.0

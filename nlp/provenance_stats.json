@@ -1,0 +1,33 @@
+{
+  "run_id": "run_20260830_052920",
+  "dataset_26k": {
+    "source": "dataset_26k",
+    "raw": 26088,
+    "malformed": 0,
+    "missing_q": 0,
+    "missing_a": 0,
+    "boilerplate": 0,
+    "clean": 5804,
+    "within_source_duplicates": 20284
+  },
+  "farmerchat": {
+    "source": "farmerchat",
+    "raw": 238030,
+    "malformed": 0,
+    "missing_q": 0,
+    "missing_a": 12,
+    "boilerplate": 0,
+    "clean": 182348,
+    "within_source_duplicates": 55670
+  },
+  "cross_source_duplicates_removed": 0,
+  "final_count": 188152,
+  "source_breakdown": {
+    "dataset_26k": 5804,
+    "farmerchat": 182348
+  },
+  "run_mode": {
+    "full_corpus": true,
+    "debug_cap": null
+  }
+}

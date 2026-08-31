@@ -1,0 +1,8 @@
+{
+  "run_id": "run_20260830_052920",
+  "n_total": 188152,
+  "dim": 1024,
+  "representation": "question_only",
+  "completed_batches": 2940,
+  "completed_docs": 188152
+}

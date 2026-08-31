@@ -1,0 +1,9 @@
+{
+  "index_type": "hnsw",
+  "dim": 1024,
+  "n_docs": 188152,
+  "metric": "inner_product (cosine, vectors L2-normalized)",
+  "m": 32,
+  "ef_construction": 200,
+  "ef_search": 128
+}

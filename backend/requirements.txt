@@ -17,15 +17,25 @@ Pillow>=10.3.0                  # Image decoding & resizing
 opencv-python-headless>=4.9.0   # Grad-CAM JET colormap overlay
 numpy>=1.26.0
 
+# ── CPU-only PyTorch ──────────────────────────────────────────────────────
+# Must be declared before sentence-transformers so pip resolves torch from
+# the CPU wheel index instead of the default CUDA index.
+# Eliminates ~2.5 GB of nvidia-* CUDA packages (cudnn, cublas, cufft, triton…)
+# that caused Railway OOM before FastAPI started.
+# torch.cuda.is_available() returns False on CPU — all code handles this.
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.4.1+cpu
+
 # ── NLP / RAG Pipeline ────────────────────────────────────────────────────
 sentence-transformers==3.3.1    # BGE-M3 text embedding model
 faiss-cpu==1.9.0.post1          # Vector retrieval on kb.index
 transformers==4.46.3            # Qwen2.5 LLM + IndicTrans2
 tokenizers==0.20.3
 accelerate==1.1.1
-bitsandbytes==0.45.3            # 4-bit quantisation support
+# bitsandbytes removed: LLM runs via HF InferenceClient (remote API).
+# No Python file imports bitsandbytes. Zero code usage confirmed.
 sentencepiece==0.2.0            # IndicTrans2 tokenizer dependency
-huggingface_hub>=0.27.0             # InferenceClient `provider` kwarg requires >=0.27.0
+huggingface_hub>=0.27.0         # InferenceClient `provider` kwarg requires >=0.27.0
 
 # IndicTransToolkit (IndicTrans2 wrapper):
 # Pinned to 1.1.1. If unavailable on PyPI, install via:

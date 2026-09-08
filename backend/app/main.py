@@ -48,10 +48,12 @@ def _download_hf_artifacts(settings) -> None:
     token = raw_token or None
 
     artifacts = [
-        # (hf_filename_in_repo,           local_destination_path)
-        ("nlp/kb.index",                  settings.nlp_faiss_index_path),
-        ("nlp/final_knowledge_base.jsonl", settings.nlp_kb_path),
-        ("disease/final_model.keras",     settings.disease_model_path),
+        # (hf_filename_in_repo,                                local_destination_path)
+        # NOTE: Files in the HF repo are stored under the krishi-sakhi-ai-assets/ subfolder.
+        # Confirmed from HF API: siblings list shows rfilename prefixed with repo name folder.
+        ("krishi-sakhi-ai-assets/nlp/kb.index",                  settings.nlp_faiss_index_path),
+        ("krishi-sakhi-ai-assets/nlp/final_knowledge_base.jsonl", settings.nlp_kb_path),
+        ("krishi-sakhi-ai-assets/disease/final_model.keras",     settings.disease_model_path),
     ]
 
     for hf_filename, local_path in artifacts:

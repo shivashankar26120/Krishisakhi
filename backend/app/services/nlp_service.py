@@ -422,18 +422,11 @@ def initialize(settings) -> dict[str, str]:
             if err is None
             else f"ERROR: {err}"
         )
-
         # ------------------------------------------------------------
-        # Embeddings
+        # Embeddings — lazy: loaded on first retrieve() call
         # ------------------------------------------------------------
 
-        err = _load_embedding_model(settings)
-
-        statuses["embedding_model"] = (
-            "ok"
-            if err is None
-            else f"ERROR: {err}"
-        )
+        statuses["embedding_model"] = "lazy (loads on first query)"
 
         # ------------------------------------------------------------
         # FAISS
@@ -574,9 +567,10 @@ def retrieve(
     """Embed query and retrieve records from FAISS."""
 
     if _embed_model is None:
-        raise RuntimeError(
-            "Embedding model not loaded."
-        )
+        err = _load_embedding_model(settings)
+        if err is not None:
+            raise RuntimeError(err)
+
 
     if _faiss_index is None:
         raise RuntimeError(

@@ -43,12 +43,16 @@ def _ensure_voice_model(settings) -> list[str]:
         try:
             from huggingface_hub import hf_hub_download
             import os
+            # Strip whitespace/newlines — Railway env vars can carry a trailing \n
+            # which causes "Invalid leading whitespace" in HTTP Bearer headers.
+            raw_token = os.environ.get("HF_TOKEN") or ""
+            hf_token = raw_token.strip() or None
             downloaded = hf_hub_download(
                 repo_id=_HF_REPO,
                 filename=hf_path,
                 local_dir=Path(local_path).parent,
                 local_dir_use_symlinks=False,
-                token=os.environ.get("HF_TOKEN"),
+                token=hf_token,
             )
             # hf_hub_download saves with the original filename; rename to expected name
             src = Path(downloaded)

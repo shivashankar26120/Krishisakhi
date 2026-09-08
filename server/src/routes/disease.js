@@ -48,14 +48,15 @@ router.post('/predict', upload.single('file'), async (req, res, next) => {
     const result = await aiProxy.predictDisease(req.file.buffer, req.file.originalname, withGradcam);
 
     // Persist to disease history
+    // Note: FastAPI returns `predicted_class` and `status` ('confident'|'uncertain')
     const [saved] = await db('disease_analyses')
       .insert({
         farmer_id: req.farmer.sub,
-        predicted_disease: result.predicted_disease,
+        predicted_disease: result.predicted_class,          // AI returns predicted_class
         confidence: result.confidence,
-        low_confidence: result.low_confidence || false,
+        low_confidence: result.status === 'uncertain',      // AI returns status, not low_confidence
         top5_predictions: JSON.stringify(result.top5 || []),
-        gradcam_url: result.gradcam_image ? null : null, // placeholder — image storage to be added in later stage
+        gradcam_url: null,  // image storage to be added in later stage
         crop_name: cropName,
         notes,
       })

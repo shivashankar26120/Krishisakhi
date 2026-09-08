@@ -12,6 +12,7 @@ pydantic-settings>=2.3.0
 # ── Disease Detection & Grad-CAM ──────────────────────────────────────────
 tensorflow==2.20.0              # Matched to notebook training environment
 keras==3.13.2                   # Matched to notebook training environment (Keras 3 native format)
+tf-keras>=2.16.0                # Keras 2 compatibility shim required by transformers with Keras 3
 Pillow>=10.3.0                  # Image decoding & resizing
 opencv-python-headless>=4.9.0   # Grad-CAM JET colormap overlay
 numpy>=1.26.0
@@ -24,7 +25,7 @@ tokenizers==0.20.3
 accelerate==1.1.1
 bitsandbytes==0.45.3            # 4-bit quantisation support
 sentencepiece==0.2.0            # IndicTrans2 tokenizer dependency
-huggingface_hub==0.26.2
+huggingface_hub>=0.27.0             # InferenceClient `provider` kwarg requires >=0.27.0
 
 # IndicTransToolkit (IndicTrans2 wrapper):
 # Pinned to 1.1.1. If unavailable on PyPI, install via:

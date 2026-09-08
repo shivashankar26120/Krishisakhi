@@ -443,14 +443,8 @@ def initialize(settings) -> dict[str, str]:
         # ------------------------------------------------------------
         # LLM
         # ------------------------------------------------------------
+        statuses["translation"] = "lazy (loads on first translation request)"
 
-        err = _load_llm(settings)
-
-        statuses["llm"] = (
-            "ok"
-            if err is None
-            else f"ERROR: {err}"
-        )
 
         # ------------------------------------------------------------
         # Translation
@@ -646,11 +640,13 @@ def _translate(
         'src2en'
         'en2tgt'
     """
-
+    if not _translation_ready:
+        _load_translation(settings)
     if not _translation_ready:
         raise RuntimeError(
             "Translation is not available."
         )
+
 
     import torch
 

@@ -264,35 +264,19 @@ def _load_llm(settings) -> str | None:
     if not hf_token:
         return "HF_TOKEN environment variable is missing or empty."
 
-    # Use the project's existing Qwen 3B target.
-    # The model is executed remotely through Hugging Face.
-    model_name = "Qwen/Qwen2.5-3B-Instruct"
+    # Read configured model or fall back to default
+    model_name = getattr(settings, "nlp_llm_model", "Qwen/Qwen2.5-72B-Instruct")
 
     try:
-        # `provider` kwarg was added in huggingface_hub 0.27.0.
-        # Detect version and use it only when supported.
-        raw_ver = getattr(huggingface_hub, "__version__", "0.0.0")
-        ver_parts = [int(x) for x in raw_ver.split(".")[:3] if x.isdigit()]
-        supports_provider = tuple(ver_parts) >= (0, 27, 0)
-
-        if supports_provider:
-            _llm_client = InferenceClient(
-                model=model_name,
-                token=hf_token,
-                provider="auto",
-            )
-        else:
-            _llm_client = InferenceClient(
-                model=model_name,
-                token=hf_token,
-            )
+        _llm_client = InferenceClient(
+            model=model_name,
+            token=hf_token,
+        )
 
         logger.info(
-            "[LLM] Hugging Face InferenceClient configured: %s "
-            "(provider kwarg supported: %s, hub version: %s)",
+            "[LLM] Hugging Face InferenceClient configured: %s (hub version: %s)",
             model_name,
-            supports_provider,
-            raw_ver,
+            getattr(huggingface_hub, "__version__", "unknown"),
         )
 
         return None

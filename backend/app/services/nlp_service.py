@@ -264,8 +264,8 @@ def _load_llm(settings) -> str | None:
     if not hf_token:
         return "HF_TOKEN environment variable is missing or empty."
 
-    # Read configured model or fall back to default
-    model_name = getattr(settings, "nlp_llm_model", "Qwen/Qwen2.5-72B-Instruct")
+    # Use the project's existing Qwen 3B target.
+    model_name = "Qwen/Qwen2.5-3B-Instruct"
 
     try:
         _llm_client = InferenceClient(

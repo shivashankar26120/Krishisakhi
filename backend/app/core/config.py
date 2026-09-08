@@ -62,12 +62,12 @@ class Settings(BaseSettings):
     nlp_retrieval_top_k: int = 5
     nlp_retrieval_min_score: float = 0.35   # below this → refusal
 
-    # LLM model for Hugging Face Serverless Inference
-    nlp_llm_model: str = "Qwen/Qwen2.5-72B-Instruct"
+    # LLM candidate chain (tried in order; first that loads successfully is used)
+    # Overridable as a comma-separated list of "name:require_4bit:min_tok_per_sec"
     nlp_llm_candidate_models: str = (
-        "Qwen/Qwen2.5-72B-Instruct,"
-        "Qwen/Qwen2.5-Coder-32B-Instruct,"
-        "meta-llama/Llama-3.1-8B-Instruct"
+        "Qwen/Qwen2.5-7B-Instruct:true:8,"
+        "Qwen/Qwen2.5-3B-Instruct:false:5,"
+        "Qwen/Qwen2.5-1.5B-Instruct:false:0"
     )
     nlp_llm_max_new_tokens: int = 400
     nlp_llm_temperature: float = 0.3
